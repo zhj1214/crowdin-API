@@ -1,0 +1,23 @@
+{
+  "version": {
+    "key": "version",
+    "value": "versión 1.0.0",
+    "creationTime": "2025-04-23 18:24:54",
+    "updateTime": "2025-04-23 18:24:54",
+    "language": "pt"
+  },
+  "name": {
+    "key": "name",
+    "value": "figma herramienta",
+    "creationTime": "2025-04-23 18:24:54",
+    "updateTime": "2025-04-23 18:24:54",
+    "language": "pt"
+  },
+  "description": {
+    "key": "description",
+    "value": "Instrucciones de uso de la herramienta",
+    "creationTime": "2025-04-23 18:24:54",
+    "updateTime": "2025-04-23 18:24:54",
+    "language": "pt"
+  }
+}

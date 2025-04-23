@@ -1,0 +1,22 @@
+{
+  "name": "crowdin-http",
+  "version": "1.0.0",
+  "description": "Crowdin 翻译下载工具及测试界面",
+  "private": true,
+  "workspaces": [
+    "server",
+    "client"
+  ],
+  "scripts": {
+    "dev:server": "yarn workspace server dev",
+    "dev:client": "yarn workspace client dev",
+    "dev": "concurrently \"yarn dev:server\" \"yarn dev:client\"",
+    "build:server": "yarn workspace server build",
+    "build:client": "yarn workspace client build",
+    "build": "yarn build:server && yarn build:client",
+    "start": "yarn workspace server start"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+} 
