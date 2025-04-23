@@ -1,0 +1,19 @@
+# 依赖目录
+node_modules/
+.git/
+.nuxt/
+.output/
+.yarn/
+dist/
+yarn-error.log
+yarn.lock
+
+# 缓存和临时文件
+yarn-error.log
+.last_geoip_timestamp
+
+# 构建产物
+dist/
+
+# 日志和缓存文件
+.DS_Store

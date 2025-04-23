@@ -1,0 +1,10 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# 要求
+1. 我的电脑是 mac os, 型号标识符：	MacBookPro16,1
+2. 如果解决不了,不要随意更改方案,先征求我的意见
+3. 使用中文回答
+4. 当前项目使用 yarn 管理三方包依赖
