@@ -106,11 +106,11 @@
     },
     {
       "page5__frame3055__page5Frame3055Page5Frame3055Page5Frame3055Page5Frame3055Page5Frame3055Page5Frame3055Page5Frame3055Page5Frame3055Page5Frame3055Page5Frame3055Page5Frame3055Page5Frame3055触碰树，摇动它，领取掉获的金蛋！": "key3",
-      "Toque na árvore, sacuda-a e receba os ovos de ouro obtidos!": "你好,校长"
+      "Toque na árvore, sacuda-a e receba os ovos de ouro obtidos!": "Olá, diretor"
     }
   ],
   "metadata": {
-    "downloadedAt": "2025-04-23T09:57:51.668Z",
+    "downloadedAt": "2025-04-23T11:19:05.930Z",
     "languageCode": "pt",
     "projectId": 8,
     "version": "1.0",
@@ -302,9 +302,9 @@
     },
     {
       "key": "key3",
-      "value": "你好,校长",
+      "value": "Olá, diretor",
       "creationTime": "2025-04-23 17:57:51",
-      "updateTime": "2025-04-23 17:57:51",
+      "updateTime": "2025-04-23 19:17:25",
       "language": "pt"
     }
   ]

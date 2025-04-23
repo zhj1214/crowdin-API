@@ -32,12 +32,12 @@
             v-model="selectedLanguageId"
             placeholder="请选择语言"
             filterable
-            :disabled="!selectedProject"
+            :disabled="!selectedProjectId"
             @change="handleLanguageChange"
             style="width: 100%"
           >
             <el-option
-              v-for="language in targetLanguages"
+              v-for="language in targetLanguagesArray"
               :key="language.id"
               :label="`${language.name} (${language.id})`"
               :value="language.id"
@@ -51,12 +51,12 @@
             placeholder="请选择文件（可选）"
             filterable
             clearable
-            :disabled="!selectedProject"
+            :disabled="!selectedProjectId"
             @change="handleFileChange"
             style="width: 100%"
           >
             <el-option
-              v-for="file in files"
+              v-for="file in filesArray"
               :key="file.id"
               :label="`${file.name} (${file.type})`"
               :value="file.id"
@@ -202,6 +202,14 @@ const canDownload = computed(() => {
   return selectedProjectId.value && selectedLanguageId.value;
 });
 
+const targetLanguagesArray = computed(() => {
+  return crowdinStore.targetLanguages;
+});
+
+const filesArray = computed(() => {
+  return crowdinStore.files;
+});
+
 // 方法
 async function init() {
   if (projects.length === 0) {
@@ -242,7 +250,7 @@ function handleLanguageChange(languageId: string) {
 
 function handleFileChange(fileId: number | null) {
   if (fileId) {
-    const file = files.find((f) => f.id === fileId);
+    const file = filesArray.value.find((f) => f.id === fileId);
     if (file) {
       selectFile(file);
     }
@@ -261,6 +269,27 @@ async function handleDownload() {
   if (selectedFileId.value) {
     // 下载文件翻译
     await downloadFileTranslation();
+    console.log("downloadFileTranslation 完成");
+
+    // 如果翻译成功，创建下载链接
+    if (crowdinStore.translation) {
+      const jsonString = JSON.stringify(crowdinStore.translation, null, 2);
+      const blob = new Blob([jsonString], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+
+      // 创建下载元素
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `translation_${selectedLanguage.value?.id}_file_${selectedFile.value?.id}.json`;
+      document.body.appendChild(a);
+      a.click();
+
+      // 清理
+      setTimeout(() => {
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }, 100);
+    }
   } else {
     // 下载项目翻译
     await downloadProjectTranslation();
@@ -268,7 +297,10 @@ async function handleDownload() {
 
   if (error && error.value) {
     ElMessage.error(error.value);
-  } else if (translation && translation.value || downloadUrl && downloadUrl.value) {
+  } else if (
+    (translation && translation.value) ||
+    (downloadUrl && downloadUrl.value)
+  ) {
     ElMessage.success("翻译下载成功");
   }
 }
