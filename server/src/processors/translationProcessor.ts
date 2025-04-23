@@ -1,6 +1,9 @@
 import { EnhancedTranslation } from "../types";
 import logger from "../utils/logger";
 import { parse as csvParse } from "csv-parse/sync";
+import fs from 'fs';
+import path from 'path';
+import config from '../config/config';
 
 /**
  * 处理翻译数据，添加额外信息和格式化
@@ -83,7 +86,7 @@ export function processTranslationData(
     }
 
     // 处理翻译内容 - 这里可以根据实际需求自定义处理逻辑
-    enhancedTranslation.content = processContent(parsedData, languageCode);
+    enhancedTranslation.content = processContent(parsedData, languageCode, projectId, fileId);
 
     return enhancedTranslation;
   } catch (error) {
@@ -116,23 +119,112 @@ function detectDataFormat(data: any): string {
 /**
  * 内容处理函数 - 可根据实际需求自定义
  */
-function processContent(data: any, languageCode: string): Record<string, any> {
+function processContent(data: any, languageCode: string, projectId?: number, fileId?: number): Record<string, any> {
   // 这里是根据实际需求处理数据的地方
+
+  // 获取当前时间
+  const currentTime = new Date().toLocaleString("zh-CN", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false,
+  }).replace(/\//g, "-");
+
+  // 加载之前存储的翻译缓存（如果存在）
+  let previousTranslations: Record<string, any> = {};
+  try {
+    const cacheDir = path.join(config.outputDir || 'cache', 'translation_cache');
+    const cacheFileName = `${languageCode}${projectId ? '_p' + projectId : ''}${fileId ? '_f' + fileId : ''}.json`;
+    const cacheFilePath = path.join(cacheDir, cacheFileName);
+    
+    // 确保缓存目录存在
+    if (!fs.existsSync(cacheDir)) {
+      fs.mkdirSync(cacheDir, { recursive: true });
+    }
+
+    // 读取现有缓存
+    if (fs.existsSync(cacheFilePath)) {
+      const cacheContent = fs.readFileSync(cacheFilePath, 'utf-8');
+      previousTranslations = JSON.parse(cacheContent);
+      logger.debug(`已加载翻译缓存文件: ${cacheFilePath}`, { entryCount: Object.keys(previousTranslations).length });
+    } else {
+      logger.debug(`翻译缓存文件不存在，将创建新文件: ${cacheFilePath}`);
+    }
+  } catch (error) {
+    logger.warn(`无法加载翻译缓存，将创建新的翻译记录`, { error });
+    // 继续处理，视为所有翻译都是新的
+  }
 
   // 如果是数组（CSV数据），转换为键值对
   if (Array.isArray(data)) {
     const processedContent: any[] = [];
+    const updatedCache: Record<string, any> = {};
 
     data.forEach((row, index) => {
-      // 假设CSV第一列是键，第二列是值
+      // 提取键和值
+      const key = String(Object.values(row)[0] || '');
+      const value = String(Object.values(row)[1] || '');
+      
+      if (!key) {
+        logger.warn(`跳过无效的翻译项 #${index}，键为空`);
+        return;
+      }
 
-      processedContent.push({
-        key: Object.values(row)[0],
-        value: Object.values(row)[1],
-        timestamp: Date.now(),
+      // 检查该翻译键是否已存在于缓存中
+      const existingTranslation = previousTranslations[key];
+      
+      let creationTime = currentTime;
+      let updateTime = currentTime;
+      
+      // 如果存在上一次的翻译，复用其创建时间
+      if (existingTranslation) {
+        if (existingTranslation.creationTime) {
+          creationTime = existingTranslation.creationTime;
+          logger.debug(`找到现有翻译: ${key}, 创建时间: ${creationTime}`);
+        }
+        
+        // 只有当value发生变化时才更新updateTime
+        if (existingTranslation.value === value) {
+          updateTime = existingTranslation.updateTime || currentTime;
+          logger.debug(`翻译内容未变化: ${key}, 保留更新时间: ${updateTime}`);
+        } else {
+          logger.debug(`翻译内容已变化: ${key}, 旧值: "${existingTranslation.value}", 新值: "${value}", 更新时间更新为: ${currentTime}`);
+        }
+      } else {
+        logger.debug(`新增翻译: ${key}, 创建时间: ${creationTime}`);
+      }
+
+      // 创建翻译项
+      const translationItem = {
+        key,
+        value,
+        creationTime,
+        updateTime, // 只有在内容变化时才会是当前时间，否则保留原更新时间
         language: languageCode,
-      });
+      };
+      
+      // 添加到处理后的内容
+      processedContent.push(translationItem);
+      
+      // 更新缓存
+      updatedCache[key] = translationItem;
     });
+
+    // 保存更新后的缓存
+    try {
+      const cacheDir = path.join(config.outputDir || 'cache', 'translation_cache');
+      const cacheFileName = `${languageCode}${projectId ? '_p' + projectId : ''}${fileId ? '_f' + fileId : ''}.json`;
+      const cacheFilePath = path.join(cacheDir, cacheFileName);
+      
+      fs.writeFileSync(cacheFilePath, JSON.stringify(updatedCache, null, 2), 'utf-8');
+      logger.debug(`已更新翻译缓存文件: ${cacheFilePath}`, { entryCount: Object.keys(updatedCache).length });
+    } catch (error) {
+      logger.error(`保存翻译缓存失败`, { error });
+      // 继续处理，即使缓存保存失败
+    }
 
     return processedContent;
   }
