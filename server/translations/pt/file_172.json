@@ -1,0 +1,498 @@
+{
+  "original": [
+    {
+      "key": "qsrbtx",
+      "value": "Por favor, introduzca el campo obligatorio"
+    },
+    {
+      "key": "wlycqcxjr",
+      "value": "Error de red, por favor vuelve a entrar a la página"
+    },
+    {
+      "key": "wlxhc",
+      "value": "Señal de red deficiente"
+    },
+    {
+      "key": "requestIng",
+      "value": "Solicitando, por favor espera"
+    },
+    {
+      "key": "networkAnomaly",
+      "value": "Error de red, por favor inténtalo de nuevo"
+    },
+    {
+      "key": "reqTimeOut",
+      "value": "La solicitud superó el tiempo de espera"
+    },
+    {
+      "key": "null",
+      "value": "--"
+    },
+    {
+      "key": "confirm",
+      "value": "Confirmar"
+    },
+    {
+      "key": "cancel",
+      "value": "Cancelar"
+    },
+    {
+      "key": "home",
+      "value": "Volver a Inicio"
+    },
+    {
+      "key": "zwqx",
+      "value": "Sin permiso"
+    },
+    {
+      "key": "xwyd",
+      "value": "Vacante disponible"
+    },
+    {
+      "key": "email",
+      "value": "Correo electrónico"
+    },
+    {
+      "key": "password",
+      "value": "Contraseña"
+    },
+    {
+      "key": "area",
+      "value": "Región"
+    },
+    {
+      "key": "name",
+      "value": "Nombre"
+    },
+    {
+      "key": "start",
+      "value": "Iniciar"
+    },
+    {
+      "key": "end",
+      "value": "Fin"
+    },
+    {
+      "key": "all",
+      "value": "Todo"
+    },
+    {
+      "key": "ywc",
+      "value": "Completado"
+    },
+    {
+      "key": "jxz",
+      "value": "En curso"
+    },
+    {
+      "key": "ygq",
+      "value": "Expirado"
+    },
+    {
+      "key": "ysx",
+      "value": "Inválido"
+    },
+    {
+      "key": "wwc",
+      "value": "Incompleto"
+    },
+    {
+      "key": "ylq",
+      "value": "Recibido"
+    },
+    {
+      "key": "yff",
+      "value": "Entregado"
+    },
+    {
+      "key": "wsy",
+      "value": "Sin usar"
+    },
+    {
+      "key": "ysy",
+      "value": "Usado"
+    },
+    {
+      "key": "goText",
+      "value": "Ir"
+    },
+    {
+      "key": "close",
+      "value": "Cerrar"
+    },
+    {
+      "key": "wait",
+      "value": "Por favor espera"
+    },
+    {
+      "key": "cheating",
+      "value": "Usuario haciendo trampa"
+    },
+    {
+      "key": "smrz",
+      "value": "Verificación de identidad"
+    },
+    {
+      "key": "bdsj",
+      "value": "Vincular teléfono"
+    },
+    {
+      "key": "bdyx",
+      "value": "Vincular correo electrónico"
+    },
+    {
+      "key": "pleasetryAgain",
+      "value": "Por favor, inténtalo de nuevo"
+    },
+    {
+      "key": "loginExpired",
+      "value": "La sesión ha expirado"
+    },
+    {
+      "key": "save",
+      "value": "Guardar"
+    },
+    {
+      "key": "saveSuccess",
+      "value": "Guardado con éxito"
+    },
+    {
+      "key": "edit",
+      "value": "Editar"
+    },
+    {
+      "key": "delete",
+      "value": "Eliminar"
+    },
+    {
+      "key": "add",
+      "value": "Agregar"
+    },
+    {
+      "key": "figmaName",
+      "value": "figma herramienta"
+    },
+    {
+      "key": "figmaDescription",
+      "value": "Instrucciones de uso de la herramienta"
+    }
+  ],
+  "metadata": {
+    "downloadedAt": "2025-04-23T10:24:33.492Z",
+    "languageCode": "pt",
+    "projectId": 8,
+    "version": "1.0",
+    "dataFormat": "json",
+    "fileId": 172
+  },
+  "content": [
+    {
+      "key": "qsrbtx",
+      "value": "Por favor, introduzca el campo obligatorio",
+      "creationTime": "2025-04-23 18:24:33",
+      "updateTime": "2025-04-23 18:24:33",
+      "language": "pt"
+    },
+    {
+      "key": "wlycqcxjr",
+      "value": "Error de red, por favor vuelve a entrar a la página",
+      "creationTime": "2025-04-23 18:24:33",
+      "updateTime": "2025-04-23 18:24:33",
+      "language": "pt"
+    },
+    {
+      "key": "wlxhc",
+      "value": "Señal de red deficiente",
+      "creationTime": "2025-04-23 18:24:33",
+      "updateTime": "2025-04-23 18:24:33",
+      "language": "pt"
+    },
+    {
+      "key": "requestIng",
+      "value": "Solicitando, por favor espera",
+      "creationTime": "2025-04-23 18:24:33",
+      "updateTime": "2025-04-23 18:24:33",
+      "language": "pt"
+    },
+    {
+      "key": "networkAnomaly",
+      "value": "Error de red, por favor inténtalo de nuevo",
+      "creationTime": "2025-04-23 18:24:33",
+      "updateTime": "2025-04-23 18:24:33",
+      "language": "pt"
+    },
+    {
+      "key": "reqTimeOut",
+      "value": "La solicitud superó el tiempo de espera",
+      "creationTime": "2025-04-23 18:24:33",
+      "updateTime": "2025-04-23 18:24:33",
+      "language": "pt"
+    },
+    {
+      "key": "null",
+      "value": "--",
+      "creationTime": "2025-04-23 18:24:33",
+      "updateTime": "2025-04-23 18:24:33",
+      "language": "pt"
+    },
+    {
+      "key": "confirm",
+      "value": "Confirmar",
+      "creationTime": "2025-04-23 18:24:33",
+      "updateTime": "2025-04-23 18:24:33",
+      "language": "pt"
+    },
+    {
+      "key": "cancel",
+      "value": "Cancelar",
+      "creationTime": "2025-04-23 18:24:33",
+      "updateTime": "2025-04-23 18:24:33",
+      "language": "pt"
+    },
+    {
+      "key": "home",
+      "value": "Volver a Inicio",
+      "creationTime": "2025-04-23 18:24:33",
+      "updateTime": "2025-04-23 18:24:33",
+      "language": "pt"
+    },
+    {
+      "key": "zwqx",
+      "value": "Sin permiso",
+      "creationTime": "2025-04-23 18:24:33",
+      "updateTime": "2025-04-23 18:24:33",
+      "language": "pt"
+    },
+    {
+      "key": "xwyd",
+      "value": "Vacante disponible",
+      "creationTime": "2025-04-23 18:24:33",
+      "updateTime": "2025-04-23 18:24:33",
+      "language": "pt"
+    },
+    {
+      "key": "email",
+      "value": "Correo electrónico",
+      "creationTime": "2025-04-23 18:24:33",
+      "updateTime": "2025-04-23 18:24:33",
+      "language": "pt"
+    },
+    {
+      "key": "password",
+      "value": "Contraseña",
+      "creationTime": "2025-04-23 18:24:33",
+      "updateTime": "2025-04-23 18:24:33",
+      "language": "pt"
+    },
+    {
+      "key": "area",
+      "value": "Región",
+      "creationTime": "2025-04-23 18:24:33",
+      "updateTime": "2025-04-23 18:24:33",
+      "language": "pt"
+    },
+    {
+      "key": "name",
+      "value": "Nombre",
+      "creationTime": "2025-04-23 18:24:33",
+      "updateTime": "2025-04-23 18:24:33",
+      "language": "pt"
+    },
+    {
+      "key": "start",
+      "value": "Iniciar",
+      "creationTime": "2025-04-23 18:24:33",
+      "updateTime": "2025-04-23 18:24:33",
+      "language": "pt"
+    },
+    {
+      "key": "end",
+      "value": "Fin",
+      "creationTime": "2025-04-23 18:24:33",
+      "updateTime": "2025-04-23 18:24:33",
+      "language": "pt"
+    },
+    {
+      "key": "all",
+      "value": "Todo",
+      "creationTime": "2025-04-23 18:24:33",
+      "updateTime": "2025-04-23 18:24:33",
+      "language": "pt"
+    },
+    {
+      "key": "ywc",
+      "value": "Completado",
+      "creationTime": "2025-04-23 18:24:33",
+      "updateTime": "2025-04-23 18:24:33",
+      "language": "pt"
+    },
+    {
+      "key": "jxz",
+      "value": "En curso",
+      "creationTime": "2025-04-23 18:24:33",
+      "updateTime": "2025-04-23 18:24:33",
+      "language": "pt"
+    },
+    {
+      "key": "ygq",
+      "value": "Expirado",
+      "creationTime": "2025-04-23 18:24:33",
+      "updateTime": "2025-04-23 18:24:33",
+      "language": "pt"
+    },
+    {
+      "key": "ysx",
+      "value": "Inválido",
+      "creationTime": "2025-04-23 18:24:33",
+      "updateTime": "2025-04-23 18:24:33",
+      "language": "pt"
+    },
+    {
+      "key": "wwc",
+      "value": "Incompleto",
+      "creationTime": "2025-04-23 18:24:33",
+      "updateTime": "2025-04-23 18:24:33",
+      "language": "pt"
+    },
+    {
+      "key": "ylq",
+      "value": "Recibido",
+      "creationTime": "2025-04-23 18:24:33",
+      "updateTime": "2025-04-23 18:24:33",
+      "language": "pt"
+    },
+    {
+      "key": "yff",
+      "value": "Entregado",
+      "creationTime": "2025-04-23 18:24:33",
+      "updateTime": "2025-04-23 18:24:33",
+      "language": "pt"
+    },
+    {
+      "key": "wsy",
+      "value": "Sin usar",
+      "creationTime": "2025-04-23 18:24:33",
+      "updateTime": "2025-04-23 18:24:33",
+      "language": "pt"
+    },
+    {
+      "key": "ysy",
+      "value": "Usado",
+      "creationTime": "2025-04-23 18:24:33",
+      "updateTime": "2025-04-23 18:24:33",
+      "language": "pt"
+    },
+    {
+      "key": "goText",
+      "value": "Ir",
+      "creationTime": "2025-04-23 18:24:33",
+      "updateTime": "2025-04-23 18:24:33",
+      "language": "pt"
+    },
+    {
+      "key": "close",
+      "value": "Cerrar",
+      "creationTime": "2025-04-23 18:24:33",
+      "updateTime": "2025-04-23 18:24:33",
+      "language": "pt"
+    },
+    {
+      "key": "wait",
+      "value": "Por favor espera",
+      "creationTime": "2025-04-23 18:24:33",
+      "updateTime": "2025-04-23 18:24:33",
+      "language": "pt"
+    },
+    {
+      "key": "cheating",
+      "value": "Usuario haciendo trampa",
+      "creationTime": "2025-04-23 18:24:33",
+      "updateTime": "2025-04-23 18:24:33",
+      "language": "pt"
+    },
+    {
+      "key": "smrz",
+      "value": "Verificación de identidad",
+      "creationTime": "2025-04-23 18:24:33",
+      "updateTime": "2025-04-23 18:24:33",
+      "language": "pt"
+    },
+    {
+      "key": "bdsj",
+      "value": "Vincular teléfono",
+      "creationTime": "2025-04-23 18:24:33",
+      "updateTime": "2025-04-23 18:24:33",
+      "language": "pt"
+    },
+    {
+      "key": "bdyx",
+      "value": "Vincular correo electrónico",
+      "creationTime": "2025-04-23 18:24:33",
+      "updateTime": "2025-04-23 18:24:33",
+      "language": "pt"
+    },
+    {
+      "key": "pleasetryAgain",
+      "value": "Por favor, inténtalo de nuevo",
+      "creationTime": "2025-04-23 18:24:33",
+      "updateTime": "2025-04-23 18:24:33",
+      "language": "pt"
+    },
+    {
+      "key": "loginExpired",
+      "value": "La sesión ha expirado",
+      "creationTime": "2025-04-23 18:24:33",
+      "updateTime": "2025-04-23 18:24:33",
+      "language": "pt"
+    },
+    {
+      "key": "save",
+      "value": "Guardar",
+      "creationTime": "2025-04-23 18:24:33",
+      "updateTime": "2025-04-23 18:24:33",
+      "language": "pt"
+    },
+    {
+      "key": "saveSuccess",
+      "value": "Guardado con éxito",
+      "creationTime": "2025-04-23 18:24:33",
+      "updateTime": "2025-04-23 18:24:33",
+      "language": "pt"
+    },
+    {
+      "key": "edit",
+      "value": "Editar",
+      "creationTime": "2025-04-23 18:24:33",
+      "updateTime": "2025-04-23 18:24:33",
+      "language": "pt"
+    },
+    {
+      "key": "delete",
+      "value": "Eliminar",
+      "creationTime": "2025-04-23 18:24:33",
+      "updateTime": "2025-04-23 18:24:33",
+      "language": "pt"
+    },
+    {
+      "key": "add",
+      "value": "Agregar",
+      "creationTime": "2025-04-23 18:24:33",
+      "updateTime": "2025-04-23 18:24:33",
+      "language": "pt"
+    },
+    {
+      "key": "figmaName",
+      "value": "figma herramienta",
+      "creationTime": "2025-04-23 18:24:33",
+      "updateTime": "2025-04-23 18:24:33",
+      "language": "pt"
+    },
+    {
+      "key": "figmaDescription",
+      "value": "Instrucciones de uso de la herramienta",
+      "creationTime": "2025-04-23 18:24:33",
+      "updateTime": "2025-04-23 18:24:33",
+      "language": "pt"
+    }
+  ]
+}

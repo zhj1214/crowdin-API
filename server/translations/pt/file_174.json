@@ -1,0 +1,47 @@
+{
+  "original": [
+    {
+      "key": "version",
+      "value": "versión 1.0.0"
+    },
+    {
+      "key": "name",
+      "value": "figma herramienta"
+    },
+    {
+      "key": "description",
+      "value": "Instrucciones de uso de la herramienta"
+    }
+  ],
+  "metadata": {
+    "downloadedAt": "2025-04-23T10:24:54.704Z",
+    "languageCode": "pt",
+    "projectId": 8,
+    "version": "1.0",
+    "dataFormat": "json",
+    "fileId": 174
+  },
+  "content": [
+    {
+      "key": "version",
+      "value": "versión 1.0.0",
+      "creationTime": "2025-04-23 18:24:54",
+      "updateTime": "2025-04-23 18:24:54",
+      "language": "pt"
+    },
+    {
+      "key": "name",
+      "value": "figma herramienta",
+      "creationTime": "2025-04-23 18:24:54",
+      "updateTime": "2025-04-23 18:24:54",
+      "language": "pt"
+    },
+    {
+      "key": "description",
+      "value": "Instrucciones de uso de la herramienta",
+      "creationTime": "2025-04-23 18:24:54",
+      "updateTime": "2025-04-23 18:24:54",
+      "language": "pt"
+    }
+  ]
+}
