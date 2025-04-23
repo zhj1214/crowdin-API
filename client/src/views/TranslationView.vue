@@ -74,8 +74,11 @@
             :loading="loading"
             @click="handleDownload"
           >
-            下载翻译
+            获取翻译
           </el-button>
+          <el-button @click="handleSaveTranslation"
+            >加工并保存JSON文件</el-button
+          >
           <el-button @click="resetForm">重置</el-button>
         </el-form-item>
       </el-form>
@@ -116,7 +119,7 @@
         <div class="card-header">
           <h2 class="text-lg font-medium">翻译内容预览</h2>
           <el-button type="primary" @click="handleSaveJson" size="small">
-            保存为JSON文件
+            保存原始JSON数据
           </el-button>
         </div>
       </template>
@@ -270,26 +273,6 @@ async function handleDownload() {
     // 下载文件翻译
     await downloadFileTranslation();
     console.log("downloadFileTranslation 完成");
-
-    // 如果翻译成功，创建下载链接
-    if (crowdinStore.translation) {
-      const jsonString = JSON.stringify(crowdinStore.translation, null, 2);
-      const blob = new Blob([jsonString], { type: "application/json" });
-      const url = URL.createObjectURL(blob);
-
-      // 创建下载元素
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `translation_${selectedLanguage.value?.id}_file_${selectedFile.value?.id}.json`;
-      document.body.appendChild(a);
-      a.click();
-
-      // 清理
-      setTimeout(() => {
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-      }, 100);
-    }
   } else {
     // 下载项目翻译
     await downloadProjectTranslation();
@@ -312,6 +295,35 @@ function resetForm() {
   reset();
 }
 
+function handleSaveTranslation() {
+  // 如果翻译成功，创建下载链接
+  if (crowdinStore.translation) {
+    const { content } = crowdinStore.translation;
+    if (content && content.length > 0) {
+      const translate = {};
+      content.forEach((item) => {
+        translate[item.key] = item.value;
+      });
+      const jsonString = JSON.stringify(translate, null, 2);
+      const blob = new Blob([jsonString], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+
+      // 创建下载元素
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `translation_${selectedLanguage.value?.id}_file_${selectedFile.value?.id}.json`;
+      document.body.appendChild(a);
+      a.click();
+
+      // 清理
+      setTimeout(() => {
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }, 100);
+    }
+  }
+}
+
 function formatDate(dateString: string): string {
   return new Date(dateString).toLocaleString("zh-CN");
 }
@@ -321,23 +333,16 @@ function formatJson(json: Record<string, any>): string {
 }
 
 function handleSaveJson() {
-  if (!translation.value) return;
-
-  // 创建下载链接
-  const jsonString = JSON.stringify(translation.value, null, 2);
+  if (!crowdinStore.translation) return;
+  if (!crowdinStore.translation.original) return;
+  const jsonString = JSON.stringify(crowdinStore.translation.original, null, 2);
   const blob = new Blob([jsonString], { type: "application/json" });
   const url = URL.createObjectURL(blob);
 
   // 创建下载元素
   const a = document.createElement("a");
   a.href = url;
-
-  // 生成文件名
-  const fileName = selectedFile.value
-    ? `translation_${selectedLanguage.value?.id}_file_${selectedFile.value.id}.json`
-    : `translation_${selectedLanguage.value?.id}.json`;
-
-  a.download = fileName;
+  a.download = `original_${selectedLanguage.value?.id}_file_${selectedFile.value?.id}.json`;
   document.body.appendChild(a);
   a.click();
 
@@ -345,7 +350,7 @@ function handleSaveJson() {
   setTimeout(() => {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-  }, 0);
+  }, 100);
 
   ElMessage.success("JSON文件已保存");
 }
