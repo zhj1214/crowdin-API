@@ -39,13 +39,14 @@ export interface ProjectInfo {
 }
 
 export interface EnhancedTranslation {
-  original: Record<string, any>;
+  original: any;
   metadata: {
     downloadedAt: string;
     languageCode: string;
     fileId?: number;
     projectId: number;
     version: string;
+    dataFormat?: string;
   };
   content: Record<string, any>;
 } 

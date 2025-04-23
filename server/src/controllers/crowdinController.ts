@@ -114,12 +114,22 @@ export const downloadFileTranslation = async (req: Request, res: Response) => {
   } catch (error) {
     logger.error('下载文件翻译失败', { error });
     
+    // 为前端提供更详细的错误信息
+    let errorMessage = error instanceof Error ? error.message : '未知错误';
+    let statusCode = StatusCodes.INTERNAL_SERVER_ERROR;
+    
+    // 处理权限不足错误
+    if (errorMessage.includes('API令牌权限不足') || errorMessage.includes("Endpoint isn't allowed")) {
+      errorMessage = 'Crowdin API令牌权限不足。请更新您的令牌，确保它具有翻译功能的访问权限（translation.get, translation.build）。';
+      statusCode = StatusCodes.FORBIDDEN;
+    }
+    
     const response: ApiResponse<null> = {
       success: false,
-      error: (error as Error).message
+      error: errorMessage
     };
     
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(response);
+    res.status(statusCode).json(response);
   }
 };
 
@@ -148,11 +158,21 @@ export const downloadProjectTranslation = async (req: Request, res: Response) =>
   } catch (error) {
     logger.error('下载项目翻译失败', { error });
     
+    // 为前端提供更详细的错误信息
+    let errorMessage = error instanceof Error ? error.message : '未知错误';
+    let statusCode = StatusCodes.INTERNAL_SERVER_ERROR;
+    
+    // 处理权限不足错误
+    if (errorMessage.includes('API令牌权限不足') || errorMessage.includes("Endpoint isn't allowed")) {
+      errorMessage = 'Crowdin API令牌权限不足。请更新您的令牌，确保它具有翻译功能的访问权限（translation.get, translation.build）。';
+      statusCode = StatusCodes.FORBIDDEN;
+    }
+    
     const response: ApiResponse<null> = {
       success: false,
-      error: (error as Error).message
+      error: errorMessage
     };
     
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(response);
+    res.status(statusCode).json(response);
   }
 }; 

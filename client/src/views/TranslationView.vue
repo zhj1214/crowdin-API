@@ -1,62 +1,62 @@
 <template>
   <div class="translation-view-container">
     <h1 class="text-2xl font-bold mb-6">翻译下载</h1>
-    
+
     <el-card class="mb-6">
       <template #header>
         <div class="card-header">
           <h2 class="text-lg font-medium">翻译配置</h2>
         </div>
       </template>
-      
+
       <el-form label-width="100px" label-position="left">
         <el-form-item label="项目">
-          <el-select 
-            v-model="selectedProjectId" 
-            placeholder="请选择项目" 
-            filterable 
+          <el-select
+            v-model="selectedProjectId"
+            placeholder="请选择项目"
+            filterable
             @change="handleProjectChange"
             style="width: 100%"
           >
-            <el-option 
-              v-for="project in projects" 
+            <el-option
+              v-for="project in projects"
               :key="project.id"
               :label="project.name"
               :value="project.id"
             />
           </el-select>
         </el-form-item>
-        
+
         <el-form-item label="语言">
-          <el-select 
-            v-model="selectedLanguageId" 
-            placeholder="请选择语言" 
-            filterable 
+          <el-select
+            v-model="selectedLanguageId"
+            placeholder="请选择语言"
+            filterable
             :disabled="!selectedProject"
             @change="handleLanguageChange"
             style="width: 100%"
           >
-            <el-option 
-              v-for="language in targetLanguages" 
+            <el-option
+              v-for="language in targetLanguages"
               :key="language.id"
               :label="`${language.name} (${language.id})`"
               :value="language.id"
             />
           </el-select>
         </el-form-item>
-        
+
         <el-form-item label="文件">
-          <el-select 
-            v-model="selectedFileId" 
-            placeholder="请选择文件（可选）" 
-            filterable 
+          <el-select
+            v-model="selectedFileId"
+            placeholder="请选择文件（可选）"
+            filterable
             clearable
             :disabled="!selectedProject"
             @change="handleFileChange"
             style="width: 100%"
           >
-            <el-option 
-              v-for="file in files" 
+            <el-option
+              v-for="file in files"
               :key="file.id"
               :label="`${file.name} (${file.type})`"
               :value="file.id"
@@ -66,10 +66,10 @@
             选择文件将下载单个文件翻译，不选择将下载整个项目翻译
           </div>
         </el-form-item>
-        
+
         <el-form-item>
-          <el-button 
-            type="primary" 
+          <el-button
+            type="primary"
             :disabled="!canDownload"
             :loading="loading"
             @click="handleDownload"
@@ -80,7 +80,7 @@
         </el-form-item>
       </el-form>
     </el-card>
-    
+
     <el-card v-if="error" class="mb-6 error-card">
       <template #header>
         <div class="card-header text-red-500">
@@ -89,7 +89,7 @@
       </template>
       <div class="error-message">{{ error }}</div>
     </el-card>
-    
+
     <!-- 下载链接卡片 -->
     <el-card v-if="downloadUrl" class="mb-6">
       <template #header>
@@ -109,7 +109,7 @@
         </div>
       </div>
     </el-card>
-    
+
     <!-- 翻译内容预览卡片 -->
     <el-card v-if="translation" class="mb-6">
       <template #header>
@@ -133,7 +133,10 @@
               <el-descriptions-item label="项目ID">
                 {{ translation.metadata.projectId }}
               </el-descriptions-item>
-              <el-descriptions-item v-if="translation.metadata.fileId" label="文件ID">
+              <el-descriptions-item
+                v-if="translation.metadata.fileId"
+                label="文件ID"
+              >
                 {{ translation.metadata.fileId }}
               </el-descriptions-item>
               <el-descriptions-item label="版本">
@@ -141,13 +144,17 @@
               </el-descriptions-item>
             </el-descriptions>
           </el-tab-pane>
-          
+
           <el-tab-pane label="内容">
-            <pre class="json-preview">{{ formatJson(translation.content) }}</pre>
+            <pre class="json-preview">{{
+              formatJson(translation.content)
+            }}</pre>
           </el-tab-pane>
-          
+
           <el-tab-pane label="原始数据">
-            <pre class="json-preview">{{ formatJson(translation.original) }}</pre>
+            <pre class="json-preview">{{
+              formatJson(translation.original)
+            }}</pre>
           </el-tab-pane>
         </el-tabs>
       </div>
@@ -156,25 +163,25 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onMounted } from 'vue';
-import { Download } from '@element-plus/icons-vue';
-import { ElMessage } from 'element-plus';
-import { useCrowdinStore } from '@/stores/crowdin';
-import type { FileInfo, LanguageInfo } from '@/types';
+import { computed, ref, onMounted } from "vue";
+import { Download } from "@element-plus/icons-vue";
+import { ElMessage } from "element-plus";
+import { useCrowdinStore } from "@/stores/crowdin";
+import type { FileInfo, LanguageInfo } from "@/types";
 
 const crowdinStore = useCrowdinStore();
 
-const { 
-  projects, 
-  selectedProject, 
-  files, 
-  languages, 
-  selectedFile, 
-  selectedLanguage, 
+const {
+  projects,
+  selectedProject,
+  files,
+  languages,
+  selectedFile,
+  selectedLanguage,
   translation,
   downloadUrl,
-  loading, 
-  error, 
+  loading,
+  error,
   targetLanguages,
   fetchProjects,
   selectProject,
@@ -182,7 +189,7 @@ const {
   selectLanguage,
   downloadFileTranslation,
   downloadProjectTranslation,
-  reset
+  reset,
 } = crowdinStore;
 
 // 本地状态
@@ -200,25 +207,25 @@ async function init() {
   if (projects.length === 0) {
     await fetchProjects();
   }
-  
+
   // 如果已经选择了项目，更新本地状态
-  if (selectedProject.value) {
+  if (selectedProject && selectedProject.value) {
     selectedProjectId.value = selectedProject.value.id;
   }
-  
+
   // 如果已经选择了语言，更新本地状态
-  if (selectedLanguage.value) {
+  if (selectedLanguage && selectedLanguage.value) {
     selectedLanguageId.value = selectedLanguage.value.id;
   }
-  
+
   // 如果已经选择了文件，更新本地状态
-  if (selectedFile.value) {
+  if (selectedFile && selectedFile.value) {
     selectedFileId.value = selectedFile.value.id;
   }
 }
 
 function handleProjectChange(projectId: number) {
-  const project = projects.find(p => p.id === projectId);
+  const project = projects.find((p) => p.id === projectId);
   if (project) {
     selectProject(project);
     selectedLanguageId.value = null;
@@ -227,7 +234,7 @@ function handleProjectChange(projectId: number) {
 }
 
 function handleLanguageChange(languageId: string) {
-  const language = languages.find(l => l.id === languageId);
+  const language = languages.find((l) => l.id === languageId);
   if (language) {
     selectLanguage(language);
   }
@@ -235,7 +242,7 @@ function handleLanguageChange(languageId: string) {
 
 function handleFileChange(fileId: number | null) {
   if (fileId) {
-    const file = files.find(f => f.id === fileId);
+    const file = files.find((f) => f.id === fileId);
     if (file) {
       selectFile(file);
     }
@@ -247,10 +254,10 @@ function handleFileChange(fileId: number | null) {
 
 async function handleDownload() {
   if (!selectedProjectId.value || !selectedLanguageId.value) {
-    ElMessage.warning('请选择项目和语言');
+    ElMessage.warning("请选择项目和语言");
     return;
   }
-  
+
   if (selectedFileId.value) {
     // 下载文件翻译
     await downloadFileTranslation();
@@ -258,11 +265,11 @@ async function handleDownload() {
     // 下载项目翻译
     await downloadProjectTranslation();
   }
-  
-  if (error.value) {
+
+  if (error && error.value) {
     ElMessage.error(error.value);
-  } else if (translation.value || downloadUrl.value) {
-    ElMessage.success('翻译下载成功');
+  } else if (translation && translation.value || downloadUrl && downloadUrl.value) {
+    ElMessage.success("翻译下载成功");
   }
 }
 
@@ -274,7 +281,7 @@ function resetForm() {
 }
 
 function formatDate(dateString: string): string {
-  return new Date(dateString).toLocaleString('zh-CN');
+  return new Date(dateString).toLocaleString("zh-CN");
 }
 
 function formatJson(json: Record<string, any>): string {
@@ -283,32 +290,32 @@ function formatJson(json: Record<string, any>): string {
 
 function handleSaveJson() {
   if (!translation.value) return;
-  
+
   // 创建下载链接
   const jsonString = JSON.stringify(translation.value, null, 2);
-  const blob = new Blob([jsonString], { type: 'application/json' });
+  const blob = new Blob([jsonString], { type: "application/json" });
   const url = URL.createObjectURL(blob);
-  
+
   // 创建下载元素
-  const a = document.createElement('a');
+  const a = document.createElement("a");
   a.href = url;
-  
+
   // 生成文件名
-  const fileName = selectedFile.value 
+  const fileName = selectedFile.value
     ? `translation_${selectedLanguage.value?.id}_file_${selectedFile.value.id}.json`
     : `translation_${selectedLanguage.value?.id}.json`;
-  
+
   a.download = fileName;
   document.body.appendChild(a);
   a.click();
-  
+
   // 清理
   setTimeout(() => {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
   }, 0);
-  
-  ElMessage.success('JSON文件已保存');
+
+  ElMessage.success("JSON文件已保存");
 }
 
 // 初始化
@@ -335,7 +342,7 @@ onMounted(() => {
   border-radius: 4px;
   overflow: auto;
   max-height: 400px;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: "Courier New", Courier, monospace;
   white-space: pre-wrap;
 }
 
@@ -354,4 +361,4 @@ onMounted(() => {
   align-items: center;
   padding: 20px;
 }
-</style> 
+</style>
