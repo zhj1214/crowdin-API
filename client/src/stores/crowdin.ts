@@ -100,6 +100,7 @@ export const useCrowdinStore = defineStore("crowdin", () => {
       !selectedLanguage.value
     ) {
       error.value = "请选择项目、文件和语言";
+      console.error("downloadFileTranslation 失败,请选择项目、文件和语言");
       return;
     }
 

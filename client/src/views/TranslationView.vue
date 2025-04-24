@@ -19,7 +19,7 @@
             style="width: 100%"
           >
             <el-option
-              v-for="project in projects"
+              v-for="project in projectsArray"
               :key="project.id"
               :label="project.name"
               :value="project.id"
@@ -48,7 +48,7 @@
         <el-form-item label="文件">
           <el-select
             v-model="selectedFileId"
-            placeholder="请选择文件（可选）"
+            placeholder="请选择文件"
             filterable
             clearable
             :disabled="!selectedProjectId"
@@ -71,12 +71,16 @@
           <el-button
             type="primary"
             :disabled="!canDownload"
-            :loading="loading"
+            :loading="crowdinStore.loading"
             @click="handleDownload"
           >
             获取翻译
           </el-button>
-          <el-button @click="handleSaveTranslation"
+          <el-button
+            :disabled="
+              !(crowdinStore.translation && crowdinStore.translation.content)
+            "
+            @click="handleSaveTranslation"
             >加工并保存JSON文件</el-button
           >
           <el-button @click="resetForm">重置</el-button>
@@ -84,17 +88,17 @@
       </el-form>
     </el-card>
 
-    <el-card v-if="error" class="mb-6 error-card">
+    <el-card v-if="crowdinStore.error" class="mb-6 error-card">
       <template #header>
         <div class="card-header text-red-500">
           <h2 class="text-lg font-medium">错误信息</h2>
         </div>
       </template>
-      <div class="error-message">{{ error }}</div>
+      <div class="error-message">{{ crowdinStore.error }}</div>
     </el-card>
 
     <!-- 下载链接卡片 -->
-    <el-card v-if="downloadUrl" class="mb-6">
+    <el-card v-if="crowdinStore.downloadUrl" class="mb-6">
       <template #header>
         <div class="card-header">
           <h2 class="text-lg font-medium">项目翻译下载链接</h2>
@@ -102,7 +106,11 @@
       </template>
       <div class="download-link-container">
         <p class="mb-3">项目翻译文件已准备就绪，请点击下面的链接下载：</p>
-        <el-link type="primary" :href="downloadUrl" target="_blank">
+        <el-link
+          type="primary"
+          :href="crowdinStore.downloadUrl"
+          target="_blank"
+        >
           下载翻译文件 <el-icon><Download /></el-icon>
         </el-link>
         <div class="mt-3 text-gray-500">
@@ -114,7 +122,14 @@
     </el-card>
 
     <!-- 翻译内容预览卡片 -->
-    <el-card v-if="translation" class="mb-6">
+    <el-card
+      v-if="
+        crowdinStore &&
+        crowdinStore.translation &&
+        crowdinStore.translation.metadata
+      "
+      class="mb-6"
+    >
       <template #header>
         <div class="card-header">
           <h2 class="text-lg font-medium">翻译内容预览</h2>
@@ -128,35 +143,35 @@
           <el-tab-pane label="元数据">
             <el-descriptions :column="1" border>
               <el-descriptions-item label="下载时间">
-                {{ formatDate(translation.metadata.downloadedAt) }}
+                {{ formatDate(crowdinStore.translation.metadata.downloadedAt) }}
               </el-descriptions-item>
               <el-descriptions-item label="语言代码">
-                {{ translation.metadata.languageCode }}
+                {{ crowdinStore.translation.metadata.languageCode }}
               </el-descriptions-item>
               <el-descriptions-item label="项目ID">
-                {{ translation.metadata.projectId }}
+                {{ crowdinStore.translation.metadata.projectId }}
               </el-descriptions-item>
               <el-descriptions-item
-                v-if="translation.metadata.fileId"
+                v-if="crowdinStore.translation.metadata.fileId"
                 label="文件ID"
               >
-                {{ translation.metadata.fileId }}
+                {{ crowdinStore.translation.metadata.fileId }}
               </el-descriptions-item>
               <el-descriptions-item label="版本">
-                {{ translation.metadata.version }}
+                {{ crowdinStore.translation.metadata.version }}
               </el-descriptions-item>
             </el-descriptions>
           </el-tab-pane>
 
           <el-tab-pane label="内容">
             <pre class="json-preview">{{
-              formatJson(translation.content)
+              formatJson(crowdinStore.translation.content)
             }}</pre>
           </el-tab-pane>
 
           <el-tab-pane label="原始数据">
             <pre class="json-preview">{{
-              formatJson(translation.original)
+              formatJson(crowdinStore.translation.original)
             }}</pre>
           </el-tab-pane>
         </el-tabs>
@@ -175,17 +190,6 @@ import type { FileInfo, LanguageInfo } from "@/types";
 const crowdinStore = useCrowdinStore();
 
 const {
-  projects,
-  selectedProject,
-  files,
-  languages,
-  selectedFile,
-  selectedLanguage,
-  translation,
-  downloadUrl,
-  loading,
-  error,
-  targetLanguages,
   fetchProjects,
   selectProject,
   selectFile,
@@ -202,7 +206,13 @@ const selectedFileId = ref<number | null>(null);
 
 // 计算属性
 const canDownload = computed(() => {
-  return selectedProjectId.value && selectedLanguageId.value;
+  return (
+    selectedProjectId.value && selectedLanguageId.value && selectedFileId.value
+  );
+});
+
+const projectsArray = computed(() => {
+  return crowdinStore.projects;
 });
 
 const targetLanguagesArray = computed(() => {
@@ -215,28 +225,30 @@ const filesArray = computed(() => {
 
 // 方法
 async function init() {
-  if (projects.length === 0) {
+  console.log(crowdinStore.selectedProject, "init");
+  console.log(projectsArray.value, "init");
+  if (projectsArray.value.length === 0) {
     await fetchProjects();
   }
 
-  // 如果已经选择了项目，更新本地状态
-  if (selectedProject && selectedProject.value) {
-    selectedProjectId.value = selectedProject.value.id;
+  // 如果已经选择了项目，更新本地状态 selectedProject
+  if (crowdinStore.selectedProject) {
+    selectedProjectId.value = crowdinStore.selectedProject.id;
   }
 
-  // 如果已经选择了语言，更新本地状态
-  if (selectedLanguage && selectedLanguage.value) {
-    selectedLanguageId.value = selectedLanguage.value.id;
-  }
+  // // 如果已经选择了语言，更新本地状态
+  // if (selectedLanguage && selectedLanguage.value) {
+  //   selectedLanguageId.value = selectedLanguage.value.id;
+  // }
 
   // 如果已经选择了文件，更新本地状态
-  if (selectedFile && selectedFile.value) {
-    selectedFileId.value = selectedFile.value.id;
-  }
+  // if (selectedFile && selectedFile.value) {
+  //   selectedFileId.value = selectedFile.value.id;
+  // }
 }
 
 function handleProjectChange(projectId: number) {
-  const project = projects.find((p) => p.id === projectId);
+  const project = projectsArray.value.find((p) => p.id === projectId);
   if (project) {
     selectProject(project);
     selectedLanguageId.value = null;
@@ -245,7 +257,8 @@ function handleProjectChange(projectId: number) {
 }
 
 function handleLanguageChange(languageId: string) {
-  const language = languages.find((l) => l.id === languageId);
+  const language = targetLanguagesArray.value.find((l) => l.id === languageId);
+  console.log(language, "handleLanguageChange", languageId);
   if (language) {
     selectLanguage(language);
   }
@@ -258,8 +271,7 @@ function handleFileChange(fileId: number | null) {
       selectFile(file);
     }
   } else {
-    // 清除文件选择
-    selectedFile.value = null;
+    selectFile(null); // 清除文件选择
   }
 }
 
@@ -278,12 +290,9 @@ async function handleDownload() {
     await downloadProjectTranslation();
   }
 
-  if (error && error.value) {
-    ElMessage.error(error.value);
-  } else if (
-    (translation && translation.value) ||
-    (downloadUrl && downloadUrl.value)
-  ) {
+  if (crowdinStore.error) {
+    ElMessage.error(crowdinStore.error);
+  } else if (crowdinStore.translation) {
     ElMessage.success("翻译下载成功");
   }
 }
@@ -342,7 +351,7 @@ function handleSaveJson() {
   // 创建下载元素
   const a = document.createElement("a");
   a.href = url;
-  a.download = `original_${selectedLanguage.value?.id}_file_${selectedFile.value?.id}.json`;
+  a.download = `original_${selectedLanguageId.value}_file_${selectedFileId.value}.json`;
   document.body.appendChild(a);
   a.click();
 

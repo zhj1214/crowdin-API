@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard-container">
     <h1 class="text-2xl font-bold mb-6">Crowdin 翻译工具</h1>
-    
+
     <el-card class="mb-6">
       <template #header>
         <div class="card-header">
@@ -9,7 +9,9 @@
         </div>
       </template>
       <div class="card-content">
-        <p class="mb-3">本工具可以帮助您方便地下载和管理 Crowdin 平台上的翻译内容。</p>
+        <p class="mb-3">
+          本工具可以帮助您方便地下载和管理 Crowdin 平台上的翻译内容。
+        </p>
         <el-row :gutter="20">
           <el-col :span="8">
             <el-card shadow="hover" class="feature-card">
@@ -32,18 +34,20 @@
         </el-row>
       </div>
     </el-card>
-    
+
     <el-card>
       <template #header>
         <div class="card-header">
           <h2 class="text-lg font-medium">项目列表</h2>
-          <el-button type="primary" @click="loadProjects" :loading="loading">刷新列表</el-button>
+          <el-button type="primary" @click="loadProjects" :loading="loading"
+            >刷新列表</el-button
+          >
         </div>
       </template>
       <div class="card-content">
         <el-table
-          v-if="projects.length > 0"
-          :data="projects"
+          v-if="projectsArray.length > 0"
+          :data="projectsArray"
           style="width: 100%"
           stripe
           border
@@ -55,8 +59,15 @@
           <el-table-column prop="sourceLanguageId" label="源语言" width="120" />
           <el-table-column label="操作" width="150">
             <template #default="{ row }">
-              <el-button type="primary" size="small" @click="viewProject(row)">查看</el-button>
-              <el-button type="success" size="small" @click="goToTranslation(row)">翻译</el-button>
+              <!-- <el-button type="primary" size="small" @click="viewProject(row)"
+                >查看</el-button
+              > -->
+              <el-button
+                type="success"
+                size="small"
+                @click="goToTranslation(row)"
+                >翻译</el-button
+              >
             </template>
           </el-table-column>
         </el-table>
@@ -67,27 +78,25 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue';
-import { useRouter } from 'vue-router';
-import { ElMessage } from 'element-plus';
-import { useCrowdinStore } from '@/stores/crowdin';
-import type { ProjectInfo } from '@/types';
+import { onMounted, computed } from "vue";
+import { useRouter } from "vue-router";
+import { ElMessage } from "element-plus";
+import { useCrowdinStore } from "@/stores/crowdin";
+import type { ProjectInfo } from "@/types";
 
 const router = useRouter();
 const crowdinStore = useCrowdinStore();
 
-const { 
-  projects, 
-  loading, 
-  error, 
-  fetchProjects, 
-  selectProject 
-} = crowdinStore;
+const { projects, loading, error, fetchProjects, selectProject } = crowdinStore;
+
+const projectsArray = computed(() => {
+  return crowdinStore.projects;
+});
 
 // 加载项目列表
 async function loadProjects() {
   await fetchProjects();
-  
+
   if (error) {
     ElMessage.error(error);
   }
@@ -95,16 +104,17 @@ async function loadProjects() {
 
 // 查看项目详情
 function viewProject(project: ProjectInfo) {
-  router.push({ 
-    name: 'Project', 
-    params: { id: project.id } 
+  router.push({
+    name: "Project",
+    params: { id: project.id },
   });
 }
 
 // 前往翻译页面
 function goToTranslation(project: ProjectInfo) {
+  console.log(project, "goToTranslation");
   selectProject(project);
-  router.push({ name: 'Translation' });
+  router.push({ name: "Translation" });
 }
 
 // 组件挂载时加载项目列表
@@ -131,4 +141,4 @@ onMounted(() => {
   flex-direction: column;
   justify-content: center;
 }
-</style> 
+</style>
