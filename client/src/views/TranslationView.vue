@@ -311,7 +311,7 @@ function handleSaveTranslation() {
       // 创建下载元素
       const a = document.createElement("a");
       a.href = url;
-      a.download = `translation_${selectedLanguage.value?.id}_file_${selectedFile.value?.id}.json`;
+      a.download = `translation_${selectedLanguageId.value}_file_${selectedFileId.value}.json`;
       document.body.appendChild(a);
       a.click();
 
